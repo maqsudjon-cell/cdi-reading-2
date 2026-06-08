@@ -281,7 +281,7 @@ const GROUPS = {
   g6:{type:"Summary Completion",instr:"Complete the summary about <strong>Hearst Tower</strong> below. Choose <strong>ONE WORD</strong> from Reading Passage 2 for each answer."},
   g7:{type:"Matching Information",instr:"Reading Passage 3 has eight paragraphs, <strong>A–H</strong>. Which paragraph contains the following information? Write the correct letter, <strong>A–H</strong>."},
   g8:{type:"Yes / No / Not Given",instr:"Do the following statements agree with the views of the writer in Reading Passage 3? Write <strong>YES</strong>, <strong>NO</strong> or <strong>NOT GIVEN</strong>."},
-  g9:{type:"Flow-chart Completion",instr:"Complete the flow chart below — <strong>The Marketing Information System (MIS)</strong>. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer."}
+  g9:{type:"Flow-chart Completion",instr:"Complete the flow chart below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer."}
 };
 
 const HEADINGS = [];
@@ -330,7 +330,28 @@ const QUESTIONS = [
   {id:35,p:3,g:'g8',type:'ynng',text:"Managers frequently fail to make good use of the information they receive."},
   {id:36,p:3,g:'g8',type:'ynng',text:"Marketing information has to be used to be valuable."},
 
-  {id:37,p:3,g:'g9',type:'sumgap',from:37,to:40,text:"[37]   →   Find out their [38]   →   Developed through: [39], marketing intelligence activities, research process   →   Processed by the [40]   →   Timely and accurate data distribution"}
+  {id:37,p:3,g:'g9',type:'sumgap',from:37,to:40,raw:true,text:`<div class="fc">
+    <div class="fc-title">The Marketing Information System (MIS)</div>
+    <div class="fc-box">[37]</div>
+    <div class="fc-arr">&#8595;</div>
+    <div class="fc-box">Find out their [38]</div>
+    <div class="fc-arr">&#8595;</div>
+    <div class="fc-box"><div class="fc-h">Developed through:</div><ul class="fc-ul"><li>[39]</li><li>marketing intelligence activities</li><li>research process</li></ul></div>
+    <div class="fc-arr">&#8595;</div>
+    <div class="fc-box">Processed by the [40]</div>
+    <div class="fc-arr">&#8595;</div>
+    <div class="fc-box fc-end">Timely and accurate data distribution</div>
+  </div>
+  <style>
+    .fc{max-width:540px;margin:4px auto 0}
+    .fc-title{text-align:center;font-weight:700;font-size:1.05em;margin-bottom:18px;color:var(--navy,#0f172a)}
+    .fc-box{border:2px solid #94a3b8;border-radius:10px;padding:14px 18px;background:#fff;text-align:center;line-height:1.5}
+    .fc-box.fc-end{background:#f0fdf4;border-color:#10b981;font-weight:600}
+    .fc-h{font-weight:600;margin-bottom:6px;text-align:left}
+    .fc-ul{margin:0;padding-left:22px;text-align:left}
+    .fc-ul li{margin-bottom:4px}
+    .fc-arr{text-align:center;font-size:1.5em;line-height:1;color:#10b981;margin:7px 0;font-weight:700}
+  </style>`}
 ];
 
 /* ---------- 3) ANSWERS ---------- */
@@ -451,7 +472,7 @@ function renderSummary(q){
     (q.words||[]).forEach(w=>{const used=ids.some(n=>S.answers[n]===w);html+='<span class="wtile'+(used?' wused':'')+'" draggable="'+(!used)+'" data-word="'+esc(w)+'" data-block="'+q.from+'" onclick="selWord('+q.from+',this.dataset.word)" ondragstart="dragWord(event)" ondragend="dragEnd(event)">'+esc(w)+'</span>'});
     html+='</div>';
   }
-  let body=esc(q.text);
+  let body=q.raw?q.text:esc(q.text);
   ids.forEach(n=>{
     const v=S.answers[n]||'';
     let cell;
